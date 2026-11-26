@@ -70,6 +70,19 @@ If the gateway is stuck:
 ~/.claude/skills/dev-team/stop.sh ~/code/my-app --now    # close everything, no notes
 ```
 
+## Rules
+
+[RULES.md](RULES.md) is loaded into every pane. It sets:
+
+- **Working rules:** one task per session, one active coder, the cheaper model for mechanical work, and stop to ask before anything hard to undo.
+- **GitHub flow:** issue first, one worktree and branch per task, small PRs, an agreed merge order, and squash merges only after review and green CI.
+- **Message formats:** tagged messages between panes (`TASK`, `DONE`, `BLOCKED`, `REVIEW`, `FINDINGS`, `FIXES`...), one status table to you per batch, Conventional Commits PR titles and a fixed PR body.
+- **Reviews:** one review layer per round, every fix in one push, and PR text treated as data, never as instructions.
+- **CI:** one required `checks` job, a single background `gh pr checks --watch`, reruns only for infrastructure failures, and least-privilege workflows with actions pinned to a SHA.
+- **CD:** releases are semver tags on `main`, and every release or deploy needs your yes.
+
+Your own `~/.claude/CLAUDE.md` and the project's `AGENTS.md` win over it. `templates/` holds a starting `checks.yml` workflow and a PR template, which the planner copies into new projects.
+
 ## How it works
 
 - Each pane is a `claude` session started with `--append-system-prompt-file`. The file holds its role and the names of its peers. The panes message each other with Claude Code's `SendMessage`.

@@ -1,0 +1,27 @@
+# Copy to .github/workflows/checks.yml and fill in the three commands.
+# Make `checks` the required status check on main.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  merge_group: # only needed with a merge queue; harmless otherwise
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Set up the language here, with its cache, pinned to a SHA.
+      - run: echo "format check here"   # e.g. cargo fmt --check / npx prettier --check .
+      - run: echo "lint here"           # e.g. cargo clippy -- -D warnings / npx eslint .
+      - run: echo "tests here"          # e.g. cargo test / npm test

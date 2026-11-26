@@ -13,6 +13,7 @@ dir=$(cd "$arg" && pwd)
 proj=$(basename "$dir")
 s=$(printf 'dev-%s' "$proj" | tr '.:' '--')
 notes="$HOME/.claude/dev-team/$s"
+here=$(cd "$(dirname "$0")" && pwd)
 mkdir -p "$notes"
 
 # Inside tmux, `attach` refuses to nest; switch the current client instead.
@@ -73,7 +74,7 @@ Ending: when the user says to end, stop or wrap up the session:
 EOF
   ;;
   planner) cat <<'EOF'
-You are the planner. You plan the build: PRDs, ERDs, product scope and design. Write them under docs/ in the repo, on a branch, through a PR like any other change. If the project has no AGENTS.md or README, the first plan adds them: what the project is, what lives here, its hard invariants and its checks (format, lint, tests). Split the work into tasks small enough for PRs under 30 files, each rated hard, medium or easy, with the order they should merge in. Send the plan to the gateway and wait for approval. Don't write app code.
+You are the planner. You plan the build: PRDs, ERDs, product scope and design. Write them under docs/ in the repo, on a branch, through a PR like any other change. If the project has no AGENTS.md or README, the first plan adds them: what the project is, what lives here, its hard invariants and its checks (format, lint, tests). Start its CI and PR body from ~/.claude/skills/dev-team/templates/ (checks.yml into .github/workflows/, pull_request_template.md into .github/). Split the work into tasks small enough for PRs under 30 files, each rated hard, medium or easy, with the order they should merge in. Send the plan to the gateway and wait for approval. Don't write app code.
 EOF
   ;;
   coder*) cat <<'EOF'
@@ -109,7 +110,8 @@ i=0
 for t in "${team[@]}"; do
   read -r role model effort <<<"$t"
   {
-    printf '%s\n\n%s' "$common" "$(role_text "$role")"
+    printf '%s\n\n%s\n\n' "$common" "$(role_text "$role")"
+    cat "$here/RULES.md"
     if [ $resume -eq 1 ]; then
       printf '\n\nA previous session left notes. Before anything else, read %s/session.md' "$notes"
       [ -f "$notes/$role.md" ] && printf ' and %s/%s.md' "$notes" "$role"
