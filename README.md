@@ -1,14 +1,14 @@
-# dev-team
+<p align="center">
+  <img src="assets/logo.svg" alt="dev-team: a software team in your terminal" width="760">
+</p>
+
+<p align="center">
+  <img src="assets/demo.gif" alt="dev-team running: the gateway hands out work, a coder opens a PR, the reviewer finds a fix, the gateway merges; then the session ends with notes and resumes" width="760">
+  <br><sub>A scripted replay of one session (<a href="assets/demo.sh">assets/demo.sh</a>), not a recording of real panes.</sub>
+</p>
 
 A [Claude Code](https://claude.com/claude-code) skill that runs a small software team in one tmux window: eight Claude sessions, each with a job, talking to each other. You talk to one of them, the gateway. It plans with the planner, files issues, hands each issue to a coder, sends the PR to the reviewer, and tells you once a batch is done.
 
-```
-┌──────────┬──────────┬────────────┬──────────────┐
-│ gateway  │ planner  │ coder-hard │ coder-medium │
-├──────────┼──────────┼────────────┼──────────────┤
-│coder-easy│  issues  │  reviewer  │   comments   │
-└──────────┴──────────┴────────────┴──────────────┘
-```
 
 It works for any project, new or existing. When you stop for the day, every pane writes down where it was, and the next start picks up from those notes.
 
